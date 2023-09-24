@@ -1,3 +1,5 @@
 ﻿  pch.cpp
   RemoteCtrl.cpp
+  ServerSocket.cpp
+  正在生成代码...
   RemoteCtrl.vcxproj -> D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\x64\Debug\RemoteCtrl.exe
