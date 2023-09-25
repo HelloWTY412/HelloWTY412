@@ -1,5 +1,7 @@
 ﻿  pch.cpp
   RemoteCtrl.cpp
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\ServerSocket.h(119,56): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
   ServerSocket.cpp
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\ServerSocket.h(119,56): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
   正在生成代码...
-  RemoteCtrl.vcxproj -> D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\x64\Debug\RemoteCtrl.exe
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\RemoteCtrl.cpp : fatal  error C1090: PDB API 调用失败，错误代码“3”: D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\x64\Debug\vc143.pdb
