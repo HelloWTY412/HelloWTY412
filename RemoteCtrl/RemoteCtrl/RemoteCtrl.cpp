@@ -11,13 +11,15 @@
 #define new DEBUG_NEW
 #endif
 
+using namespace std;
+
 
 // 唯一的应用程序对象
 
 CWinApp theApp;
 typedef struct file_info {
-    file_info(){
-        IsInvalid =FALSE;
+    file_info() {
+        IsInvalid = FALSE;
         IsDirectory = -1;
         HasNext = TRUE;
         memset(szFileName, 0, sizeof(szFileName));
@@ -26,9 +28,9 @@ typedef struct file_info {
     BOOL IsDirectory;//是否是文件夹 
     BOOL HasNext;//是否有下一个
     char szFileName[256];//文件名
-}FILEINFO,*PFILEINFO;
+}FILEINFO, * PFILEINFO;
 
-using namespace std;
+
 void Dump(BYTE* pData,size_t nSize) {
     string strOut;
     for (size_t i = 0; i < nSize; i++)
@@ -152,6 +154,95 @@ int DownLoadFile() {
     return 0;
 
 }
+int  MouseEvent() {
+    MOUSEEV mouse;
+    if (CServerSocket::getInstance()->GetMouseEvent(mouse)) {
+        DWORD nFlages = 0;
+        switch (mouse.nButton) {
+        case 0://左键
+            nFlages = 1;
+            break;
+        case 1://右键
+            nFlages = 2;
+            break;
+        case 2://中键
+            nFlages = 4;
+            break;
+        case 4://没有案件
+            nFlages = 8;
+            break;
+        }
+        if (nFlages != 8) SetCursorPos(mouse.ptXY.x, mouse.ptXY.y);
+        switch (mouse.nAction) {
+        case 0://单击
+            nFlages |= 0x10;
+            break;
+        case 1://双击
+            nFlages |= 0x20;
+            break;
+        case 2://按下
+            nFlages |= 0x40;
+            break;
+        case 3://松开
+            nFlages |= 0x80;
+            break;
+        defult:
+            break;
+        }
+        switch (nFlages) {
+        case 0x21://左键双击
+            mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, GetMessageExtraInfo());
+            mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, GetMessageExtraInfo());
+        case 0x11://左键单机
+            mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, GetMessageExtraInfo());
+            mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, GetMessageExtraInfo());
+            break;
+        case 0x41://左键按下
+            mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, GetMessageExtraInfo());
+            break;
+        case 0x81://左键松开
+            mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, GetMessageExtraInfo());
+            break;
+        case 0x22://右键双击
+            mouse_event(MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, GetMessageExtraInfo());
+            mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, GetMessageExtraInfo());
+        case 0x12://右键单机
+            mouse_event(MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, GetMessageExtraInfo());
+            mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, GetMessageExtraInfo());
+            break;
+        case 0x42://右键按下
+            mouse_event(MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, GetMessageExtraInfo());
+            break;
+        case 0x82://右键松开
+            mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, GetMessageExtraInfo());
+            break;
+        case 0x24://中键双击
+            mouse_event(MOUSEEVENTF_MIDDLEDOWN, 0, 0, 0, GetMessageExtraInfo());
+            mouse_event(MOUSEEVENTF_MIDDLEUP, 0, 0, 0, GetMessageExtraInfo());
+        case 0x14://中键单机
+            mouse_event(MOUSEEVENTF_MIDDLEDOWN, 0, 0, 0, GetMessageExtraInfo());
+            mouse_event(MOUSEEVENTF_MIDDLEUP, 0, 0, 0, GetMessageExtraInfo());
+            break;
+        case 0x44://中键按下
+            mouse_event(MOUSEEVENTF_MIDDLEDOWN, 0, 0, 0, GetMessageExtraInfo());
+            break;
+        case 0x84://中键松开
+            mouse_event(MOUSEEVENTF_MIDDLEUP, 0, 0, 0, GetMessageExtraInfo());
+            break;
+        case 0x08://鼠标移动
+            mouse_event(MOUSEEVENTF_MOVE, 0, 0, 0, GetMessageExtraInfo());
+            break;
+        }
+
+        CPacket pack(5, NULL, 0);
+        CServerSocket::getInstance()->Send(pack);
+        return 0;
+    }
+    else {
+        OutputDebugString(_T("获取鼠标参数失败"));
+        return -1;
+    };
+}
 int main()
 {
     int nRetCode = 0;
@@ -210,6 +301,9 @@ int main()
             break;
         case 4:
             DownLoadFile();
+            break;
+        case 5:
+            MouseEvent();
             break;
         }
        

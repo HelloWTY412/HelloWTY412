@@ -110,6 +110,21 @@ public:
 	string strOut;//整个包的数据(自带的缓冲区)
 };
 #pragma pack(pop)
+
+typedef struct MouseEvent {
+	MouseEvent() {
+		nAction = 0;
+		nButton = -1;
+		ptXY.x = 0;
+		ptXY.y = 0;
+	}
+	WORD nAction;//鼠标的动作
+	WORD nButton;//鼠标的案件
+	POINT ptXY;//坐标
+
+}MOUSEEV, * PMOUSEEV;
+
+
 class CServerSocket
 {
 public:
@@ -182,6 +197,14 @@ public:
 	bool GetFilePath(string& strPath) {
 		if (m_packet.sCmd > 2 && m_packet.sCmd < 5) {
 			strPath = m_packet.strData;
+			return TRUE;
+		}
+		return FALSE;
+	};
+
+	bool GetMouseEvent(MOUSEEV &mouse) {
+		if (m_packet.sCmd == 5) {
+			memcpy(&mouse, m_packet.strData.c_str(), sizeof(MOUSEEV));
 			return TRUE;
 		}
 		return FALSE;
