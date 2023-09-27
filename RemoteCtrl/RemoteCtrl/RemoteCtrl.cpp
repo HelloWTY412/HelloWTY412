@@ -100,6 +100,58 @@ int MakeDirctoryInfo() {
     CServerSocket::getInstance()->Send(pack);
     return 0;
 }
+
+int RunFile() {
+    string strPath;
+    if (CServerSocket::getInstance()->GetFilePath(strPath) == false) {
+        OutputDebugString(_T("命令解析错误,打开文件失败"));
+        return -1;
+    };
+    ShellExecuteA(NULL, NULL, strPath.c_str(), NULL, NULL,SW_SHOWNORMAL);
+    CPacket pack(3, NULL, 0);
+    CServerSocket::getInstance()->Send(pack);
+    return 0;
+};
+
+int DownLoadFile() {
+    string strPath;
+    long long data = 0;
+    if (CServerSocket::getInstance()->GetFilePath(strPath) == false) {
+        OutputDebugString(_T("命令解析错误,下载文件失败"));
+        return -1;
+    };
+    FILE* pFile = NULL;
+    errno_t err=fopen_s(&pFile,strPath.c_str(), "rb");//读，二进制方式打开
+    if (err!=0) {
+        CPacket pack(4, (BYTE*) &data, 8);
+        CServerSocket::getInstance()->Send(pack);
+        OutputDebugString(_T("打开文件失败"));
+        return -1;
+    }
+
+    if (pFile != NULL) {
+        //先发送文件大小
+        fseek(pFile, 0, SEEK_END);
+        data = _ftelli64(pFile);
+        CPacket head(4, (BYTE*)&data, 8);
+        CServerSocket::getInstance()->Send(head);
+        fseek(pFile, 0, SEEK_SET);
+
+        char buffer[1024];//每次发1k的包
+        size_t rlen = 0;
+        do {
+            rlen = fread(buffer, 1, 1024, pFile);
+            CPacket pack(4, (BYTE*)buffer, rlen);
+            CServerSocket::getInstance()->Send(pack);
+        } while (rlen >= 1024);
+        fclose(pFile);
+    }
+
+    CPacket pack(4, NULL, 0);
+    CServerSocket::getInstance()->Send(pack);
+    return 0;
+
+}
 int main()
 {
     int nRetCode = 0;
@@ -153,7 +205,12 @@ int main()
         case 2:
             MakeDirctoryInfo();
             break;
-
+        case 3:
+            RunFile();
+            break;
+        case 4:
+            DownLoadFile();
+            break;
         }
        
 
