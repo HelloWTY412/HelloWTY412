@@ -15,6 +15,18 @@
 // 唯一的应用程序对象
 
 CWinApp theApp;
+typedef struct file_info {
+    file_info(){
+        IsInvalid =FALSE;
+        IsDirectory = -1;
+        HasNext = TRUE;
+        memset(szFileName, 0, sizeof(szFileName));
+    };
+    BOOL IsInvalid;//是否有效
+    BOOL IsDirectory;//是否是文件夹 
+    BOOL HasNext;//是否有下一个
+    char szFileName[256];//文件名
+}FILEINFO,*PFILEINFO;
 
 using namespace std;
 void Dump(BYTE* pData,size_t nSize) {
@@ -44,10 +56,50 @@ int MakeDriverInfo() {//1==>A 2==>B 3==>C .... 26==>Z
     }
     CPacket pack(1, (BYTE*)result.c_str(), result.size());
     Dump((BYTE*)pack.Data(), pack.Size());
-   //CServerSocket::getInstance()->Send(pack);
+   CServerSocket::getInstance()->Send(pack);
     return 0;
 }
- 
+#include<stdio.h>
+#include<io.h>
+#include<list>
+int MakeDirctoryInfo() {
+    string strPath;
+    if (CServerSocket::getInstance()->GetFilePath(strPath) == false) {
+        OutputDebugString(_T("命令解析错误，当前命令不是获取文件列表"));
+        return -1;
+    };
+    if (_chdir(strPath.c_str())!=0) {
+        FILEINFO finfo;
+        finfo.HasNext = FALSE;
+        finfo.IsInvalid = TRUE;
+        finfo.IsDirectory = TRUE;
+        memcpy(finfo.szFileName, strPath.c_str(), strPath.size());
+        CPacket pack(2, (BYTE*)&finfo, sizeof(finfo));
+        CServerSocket::getInstance()->Send(pack);
+        OutputDebugString(_T("没有访问当前文件夹权限"));
+        return -2;
+    }
+
+    _finddata_t fdata;
+    int hfind = 0;
+    if ((hfind =_findfirst("*", &fdata))==-1) {
+        OutputDebugString(_T("没有找到任何文件"));
+        return -3;
+    };
+
+    do {
+        FILEINFO finfo;
+        finfo.IsDirectory = (fdata.attrib&_A_SUBDIR)!=0;
+        memcpy(finfo.szFileName, fdata.name, strlen(fdata.name));
+        CPacket pack(2, (BYTE*)&finfo, sizeof(finfo));
+        CServerSocket::getInstance()->Send(pack);
+    } while (!_findnext(hfind,&fdata));
+    FILEINFO finfo;
+    finfo.HasNext = FALSE;
+    CPacket pack(2, (BYTE*)&finfo, sizeof(finfo));
+    CServerSocket::getInstance()->Send(pack);
+    return 0;
+}
 int main()
 {
     int nRetCode = 0;
@@ -97,6 +149,9 @@ int main()
         switch (nCmd) {
         case 1://查看磁盘分区
             MakeDriverInfo();
+            break;
+        case 2:
+            MakeDirctoryInfo();
             break;
 
         }

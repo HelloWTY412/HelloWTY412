@@ -13,8 +13,14 @@ public:
 		sHead = 0xFEFF;
 		nLength = nSize + 4;
 		sCmd = nCmd;
-		strData.resize(nSize);
-		memcpy((void*)strData.c_str(), pData, nSize);
+		if (nSize > 0) {
+			strData.resize(nSize);
+			memcpy((void*)strData.c_str(), pData, nSize);
+		}
+		else {
+			strData.clear();
+		}
+		
 		sSum = 0;
 		for (size_t j = 0; j < strData.size(); j++)//校验
 		{
@@ -94,6 +100,8 @@ public:
 		*(WORD*)pData = sSum; pData += 2;
 		return strOut.c_str();
 	}
+
+	
 	WORD sHead;//包头0xFEFF
 	DWORD nLength;//长度（命令开始，校验结束）
 	WORD sCmd;//命令
@@ -170,6 +178,14 @@ public:
 		if (m_client == -1) return false;
 		return send(m_client, pack.Data(), pack.Size(), 0) > 0;
 	}
+
+	bool GetFilePath(string& strPath) {
+		if (m_packet.sCmd > 2 && m_packet.sCmd < 5) {
+			strPath = m_packet.strData;
+			return TRUE;
+		}
+		return FALSE;
+	};
 
 private:
 	SOCKET m_client;
