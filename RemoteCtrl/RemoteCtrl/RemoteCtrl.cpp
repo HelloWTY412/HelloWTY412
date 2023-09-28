@@ -258,7 +258,7 @@ int  SendScreen() {
     if (hMem ==NULL) return-1;
     IStream* pStream = NULL;
     HRESULT ret = CreateStreamOnHGlobal(hMem,TRUE,&pStream);
-    if (ret=S_OK) {
+    if (ret==S_OK) {
         screen.Save(pStream,Gdiplus::ImageFormatPNG);//PNG格式
         LARGE_INTEGER bg = { 0 };
         pStream->Seek(bg,STREAM_SEEK_SET,NULL);
@@ -331,6 +331,46 @@ int UnlockMachine() {
     CServerSocket::getInstance()->Send(pack);
     return 0;
 };
+
+int  TextConnect() {
+    CPacket pack((WORD)1981, NULL, 0);
+    CServerSocket::getInstance()->Send(pack);
+    return 0;
+}
+int ExcuteCommand(int nCmd) {
+    int ret = 0;
+    switch (nCmd) {
+    case 1://查看磁盘分区
+        ret = MakeDriverInfo();
+        break;
+    case 2:
+        ret = MakeDirctoryInfo();
+        break;
+    case 3:
+        ret = RunFile();
+        break;
+    case 4:
+        ret = DownLoadFile();
+        break;
+    case 5:
+        ret = MouseEvent();
+        break;
+    case 6:
+        ret = SendScreen();
+        break;
+    case 7:
+        ret = LockMachine();
+        break;
+    case 8:
+        ret = UnlockMachine();
+        break;
+    case 1981:
+        ret = TextConnect();
+        break;
+    }
+    return ret;
+
+}
 int main()
 {
     int nRetCode = 0;
@@ -348,60 +388,37 @@ int main()
         }
         else
         {
-            // TODO: 在此处为应用程序的行为编写代码。
+             //TODO: 在此处为应用程序的行为编写代码。
             //socket,bind,listen,accept,read,write,close
             //套接字初始化
             
-            //CServerSocket* pserver = CServerSocket::getInstance();
-            //int count = 0;
-            //if (pserver->InitSocket() == false) {
-            //    MessageBox(NULL, _T("网络初始化异常"), _T("网络初始化失败"), MB_OK | MB_ICONERROR);
-            //    exit(0);
-            //}
+            CServerSocket* pserver = CServerSocket::getInstance();
+            int count = 0;
+            if (pserver->InitSocket() == false) {
+                MessageBox(NULL, _T("网络初始化异常"), _T("网络初始化失败"), MB_OK | MB_ICONERROR);
+                exit(0);
+            }
 
-            //while (CServerSocket::getInstance()!=NULL) {
-            //    if (pserver->AcceptClient() == false) {
-            //        if (count >= 3) {
-            //            MessageBox(NULL, _T("多次无法正常接入"), _T("接入用户失败"), MB_OK | MB_ICONERROR);
-            //            exit(0);
-            //        }
-            //        MessageBox(NULL, _T("无法正常接入，自动重试"), _T("接入用户失败"), MB_OK | MB_ICONERROR);
-            //        count++;
-            //    }
-            //    int ret = pserver->DealCommand();
-            //    //TODO:
-
-            //}
-            
-
-
-        }
-        int nCmd = 1;
-        switch (nCmd) {
-        case 1://查看磁盘分区
-            MakeDriverInfo();
-            break;
-        case 2:
-            MakeDirctoryInfo();
-            break;
-        case 3:
-            RunFile();
-            break;
-        case 4:
-            DownLoadFile();
-            break;
-        case 5:
-            MouseEvent();
-            break;
-        case 6:
-            SendScreen();
-            break;
-        case 7:
-            LockMachine();
-            break;
-        case 8:
-            UnlockMachine();
-            break;
+            while (CServerSocket::getInstance()!=NULL) {
+                if (pserver->AcceptClient() == false) {
+                    if (count >= 3) {
+                        MessageBox(NULL, _T("多次无法正常接入"), _T("接入用户失败"), MB_OK | MB_ICONERROR);
+                        exit(0);
+                    }
+                    MessageBox(NULL, _T("无法正常接入，自动重试"), _T("接入用户失败"), MB_OK | MB_ICONERROR);
+                    count++;
+                }
+                int ret = pserver->DealCommand();
+                //TODO:
+                TRACE("DealCommand ret：%d \r\n", ret);  
+                if (ret >0) {
+                   ret= ExcuteCommand(ret);
+                   if (ret != 0) {
+                       TRACE("执行命令失败：%d ret=%d \r\n", pserver->GetPacket().sCmd, ret);
+                   }
+                   pserver->CloseClient();
+                }
+            }
         }
        
 

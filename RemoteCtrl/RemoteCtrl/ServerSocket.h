@@ -39,10 +39,11 @@ public:
 		size_t i = 0;//i是当前读取到的长度
 		for (; i < nSize; i++) {
 			if (*(WORD*)(pData + i) == 0xFEFF) {
-				sHead = *(WORD*)(pData + i);
-				i += 2;
+				sHead = *(WORD*)(pData + i); i += 2;
 				break;
 			}
+		}
+
 			if (i+8 >= nSize) {//nlength scmd ssum 包数据可能不全，或者包头未能全部收到
 				nSize = 0;
 				return;
@@ -67,13 +68,13 @@ public:
 				sum += BYTE(strData[j]) & 0xFF;
 			}
 
-			if (sum = sSum) {
+			if (sum == sSum) {
 				nSize = i;
 				return;
 			}
 			nSize = 0;
 
-		}
+		
 	};
 	~CPacket() {};
 	CPacket& operator = (const CPacket & pack){
@@ -156,20 +157,28 @@ public:
 		sockaddr_in client_adr;
 		int cli_sz = sizeof(client_adr);
 		m_client =accept(m_sock, (sockaddr*)&client_adr, &cli_sz);
+		TRACE("m_client=%d\r\n",m_client);
 		if (m_client == -1) return false;
 		return true;
-		
-		
 	}
 #define BUFFER_SIZE 4096
-	int DealCommand() {
+	int DealCommand() {//??????????
+		
 		if (m_client == -1) return -1;
 		char* buffer = new char[BUFFER_SIZE];
+		if (buffer == NULL) {
+			TRACE("内存不足！\r\n");
+			return -2;
+		}
 		memset(buffer, 0, BUFFER_SIZE);
 		size_t index = 0;//buffer中实际
 		while (true) {
 			size_t len=recv(m_client, buffer+index, BUFFER_SIZE -index, 0);//len :收到的数据大小
-			if (len <= 0) return -1;
+			if (len <= 0) {
+				delete[] buffer;
+				return -1;
+			}
+			
 			//TODO:处理命令
 			index += len;//index: buffer中实际存储的数据大小
 			len = index;
@@ -177,11 +186,13 @@ public:
 			if (len > 0) {
 				memmove(buffer, buffer + len, BUFFER_SIZE -len);
 				index -= len;//index: buffer中剩余的数据的大小
+				delete[] buffer;
+				TRACE("m_client:%d recvlen:%d sCmd%d buffer:%s head%d\r\n", m_client, len, m_packet.sCmd,buffer,m_packet.sHead);
 				return m_packet.sCmd;
 			}
-			return -1;
 		}
-
+		delete[] buffer;
+		return -1;
 	}
 
 	bool Send(const char* pData, int nsize) {
@@ -209,7 +220,13 @@ public:
 		}
 		return FALSE;
 	};
-
+	CPacket& GetPacket() {
+		return m_packet;
+	}
+	void CloseClient() {
+		closesocket(m_client);
+		m_client = INVALID_SOCKET;
+	}
 private:
 	SOCKET m_client;
 	SOCKET m_sock;
