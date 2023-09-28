@@ -44,7 +44,7 @@ public:
 			}
 		}
 
-			if (i+8 >= nSize) {//nlength scmd ssum 包数据可能不全，或者包头未能全部收到
+			if (i+8 > nSize) {//nlength scmd ssum 包数据可能不全，或者包头未能全部收到
 				nSize = 0;
 				return;
 			}
@@ -187,7 +187,7 @@ public:
 				memmove(buffer, buffer + len, BUFFER_SIZE -len);
 				index -= len;//index: buffer中剩余的数据的大小
 				delete[] buffer;
-				TRACE("m_client:%d recvlen:%d sCmd%d buffer:%s head%d\r\n", m_client, len, m_packet.sCmd,buffer,m_packet.sHead);
+				TRACE("m_client:%d recvlen:%d sCmd%d \r\n", m_client, len, m_packet.sCmd);
 				return m_packet.sCmd;
 			}
 		}
