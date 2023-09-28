@@ -274,6 +274,63 @@ int  SendScreen() {
     return 0;
   
 }
+#include "LockInfoDialog.h"
+CLockInfoDialog dlg;
+unsigned threadid=0;
+unsigned _stdcall threadLockDlg(void *arg) {
+    dlg.Create(IDD_DIALOG_INFO, NULL);
+    dlg.ShowWindow(SW_SHOW);
+    //遮蔽后台
+    CRect rect;
+    rect.left = 0;
+    rect.top = 0;
+    rect.right = GetSystemMetrics(SM_CXFULLSCREEN);
+    rect.bottom = GetSystemMetrics(SM_CXFULLSCREEN);
+    rect.bottom *= 1.03;
+    dlg.MoveWindow(rect);
+    //窗口置顶
+    //dlg.SetWindowPos(&dlg, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
+    //限制鼠标
+    ShowCursor(false);
+    //隐藏任务栏
+    ::ShowWindow(::FindWindow(_T("shell_traywnd"), NULL), SW_HIDE);
+    //限制鼠标活动范围
+    rect.left = 0;
+    rect.top = 0;
+    rect.right = 1;
+    rect.bottom = 1;
+    ClipCursor(rect);
+    MSG msg;
+    while (GetMessage(&msg, NULL, 0, 0)) {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+        if (msg.message == WM_KEYDOWN) {
+            TRACE("msg:%08X wparam:%08X lparam:%08X\r\n", msg.message, msg.wParam, msg.lParam);
+            if (msg.wParam == 0x41) {//按a退出
+                break;
+            }
+        }
+
+    }
+    ShowCursor(TRUE);
+    ::ShowWindow(::FindWindow(_T("shell_traywnd"), NULL), SW_SHOW);
+    dlg.DestroyWindow();
+    _endthreadex(0);
+    return 0;
+}
+int LockMachine() {
+    if((dlg.m_hWnd==NULL)||(dlg.m_hWnd==INVALID_HANDLE_VALUE))
+     _beginthreadex(NULL,0,threadLockDlg,NULL,0,&threadid);
+    CPacket pack(7, NULL, 0);
+    CServerSocket::getInstance()->Send(pack);
+    return 0;
+};
+int UnlockMachine() {
+    PostThreadMessage(threadid, WM_KEYDOWN, 0X41, 0);
+    CPacket pack(8, NULL, 0);
+    CServerSocket::getInstance()->Send(pack);
+    return 0;
+};
 int main()
 {
     int nRetCode = 0;
@@ -338,6 +395,12 @@ int main()
             break;
         case 6:
             SendScreen();
+            break;
+        case 7:
+            LockMachine();
+            break;
+        case 8:
+            UnlockMachine();
             break;
         }
        

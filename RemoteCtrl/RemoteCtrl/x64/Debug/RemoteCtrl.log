@@ -1,15 +1,16 @@
 ﻿  pch.cpp
+  LockInfoDialog.cpp
   RemoteCtrl.cpp
 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\ServerSocket.h(14,19): warning C4267: “=”: 从“size_t”转换到“DWORD”，可能丢失数据
 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\ServerSocket.h(171,56): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\RemoteCtrl.cpp(53,22): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\RemoteCtrl.cpp(55,31): warning C4267: “参数”: 从“size_t”转换到“_Elem”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\RemoteCtrl.cpp(54,22): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\RemoteCtrl.cpp(56,31): warning C4267: “参数”: 从“size_t”转换到“_Elem”，可能丢失数据
           with
           [
               _Elem=char
           ]
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\RemoteCtrl.cpp(87,27): warning C4244: “=”: 从“intptr_t”转换到“int”，可能丢失数据
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\RemoteCtrl.cpp(189,9): warning C4102: “defult”: 未引用的标签
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\RemoteCtrl.cpp(88,27): warning C4244: “=”: 从“intptr_t”转换到“int”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\RemoteCtrl.cpp(190,9): warning C4102: “defult”: 未引用的标签
   ServerSocket.cpp
 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\ServerSocket.h(14,19): warning C4267: “=”: 从“size_t”转换到“DWORD”，可能丢失数据
 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\ServerSocket.h(171,56): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
