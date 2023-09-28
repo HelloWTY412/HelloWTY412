@@ -1,7 +1,8 @@
-﻿D:\Microsoft Visual Studio\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppClean.targets(77,5): warning : 文件“d:\study\remotcontrol\hellowty412\remotectrl\remoteclient\x64\debug\remoteclient.ilk”正由另一进程使用，因此该进程无法访问此文件。
-  pch.cpp
+﻿  pch.cpp
+  ClientSocket.cpp
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\ClientSocket.h(15,19): warning C4267: “=”: 从“size_t”转换到“DWORD”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\ClientSocket.h(168,58): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
   RemoteClient.cpp
   RemoteClientDlg.cpp
   正在生成代码...
-  LINK : 没有找到 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\x64\Debug\RemoteClient.exe 或上一个增量链接没有生成它；正在执行完全链接
   RemoteClient.vcxproj -> D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\x64\Debug\RemoteClient.exe
