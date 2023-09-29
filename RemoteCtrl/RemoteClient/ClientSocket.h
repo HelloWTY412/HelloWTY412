@@ -74,9 +74,7 @@ public:
 				nSize = i;
 				return;
 			}
-			nSize = 0;
-
-		
+			nSize = 0;		
 	};
 	~CPacket() {};
 	CPacket& operator = (const CPacket& pack) {
@@ -126,6 +124,19 @@ typedef struct MouseEvent {
 	POINT ptXY;//坐标
 
 }MOUSEEV, * PMOUSEEV;
+
+typedef struct file_info {
+	file_info() {
+		IsInvalid = FALSE;
+		IsDirectory = -1;
+		HasNext = TRUE;
+		memset(szFileName, 0, sizeof(szFileName));
+	};
+	BOOL IsInvalid;//是否有效
+	BOOL IsDirectory;//是否是文件夹 
+	BOOL HasNext;//是否有下一个
+	char szFileName[256];//文件名
+}FILEINFO, * PFILEINFO;
 
 string GetErrInfo(int wsaErrCode) ;
 class CClientSocket

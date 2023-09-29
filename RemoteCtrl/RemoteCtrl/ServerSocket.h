@@ -125,6 +125,18 @@ typedef struct MouseEvent {
 
 }MOUSEEV, * PMOUSEEV;
 
+typedef struct file_info {
+	file_info() {
+		IsInvalid = FALSE;
+		IsDirectory = -1;
+		HasNext = TRUE;
+		memset(szFileName, 0, sizeof(szFileName));
+	};
+	BOOL IsInvalid;//是否有效
+	BOOL IsDirectory;//是否是文件夹 
+	BOOL HasNext;//是否有下一个
+	char szFileName[256];//文件名
+}FILEINFO, * PFILEINFO;
 
 class CServerSocket
 {
@@ -206,7 +218,7 @@ public:
 	}
 
 	bool GetFilePath(string& strPath) {
-		if (m_packet.sCmd > 2 && m_packet.sCmd < 5) {
+		if (m_packet.sCmd >= 2 && m_packet.sCmd < 5) {
 			strPath = m_packet.strData;
 			return TRUE;
 		}

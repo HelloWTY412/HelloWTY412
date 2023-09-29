@@ -20,7 +20,9 @@ public:
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 支持
 
-
+	int SendCommandPacket(int nCmd, bool Close=TRUE, BYTE* pData = NULL, size_t nLength = 0);
+	CString GetPath(HTREEITEM hTree);
+	void DeleteTreeChildrenItem(HTREEITEM hTreeSelected);
 // 实现
 protected:
 	HICON m_hIcon;
@@ -35,4 +37,8 @@ public:
 	afx_msg void OnBnClickedBtnText();
 	DWORD m_server_address;
 	CString m_nPort;
+	CTreeCtrl m_Tree;
+	afx_msg void OnBnClickedButtonFileinfo();
+	afx_msg void OnNMDblclkTreeDir(NMHDR* pNMHDR, LRESULT* pResult);
+	
 };

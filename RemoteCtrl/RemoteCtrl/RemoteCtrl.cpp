@@ -18,18 +18,6 @@ using namespace std;
 // 唯一的应用程序对象
 
 CWinApp theApp;
-typedef struct file_info {
-    file_info() {
-        IsInvalid = FALSE;
-        IsDirectory = -1;
-        HasNext = TRUE;
-        memset(szFileName, 0, sizeof(szFileName));
-    };
-    BOOL IsInvalid;//是否有效
-    BOOL IsDirectory;//是否是文件夹 
-    BOOL HasNext;//是否有下一个
-    char szFileName[256];//文件名
-}FILEINFO, * PFILEINFO;
 
 
 void Dump(BYTE* pData,size_t nSize) {
@@ -55,8 +43,8 @@ int MakeDriverInfo() {//1==>A 2==>B 3==>C .... 26==>Z
             if (result.size() > 0) result += ',';//分割
             result += 'A' + i - 1;
         };
-
     }
+    result += ',';
     CPacket pack(1, (BYTE*)result.c_str(), result.size());
     Dump((BYTE*)pack.Data(), pack.Size());
    CServerSocket::getInstance()->Send(pack);
@@ -71,32 +59,37 @@ int MakeDirctoryInfo() {
         OutputDebugString(_T("命令解析错误，当前命令不是获取文件列表"));
         return -1;
     };
-    if (_chdir(strPath.c_str())!=0) {
+    if (_chdir(strPath.c_str()) != 0) {//转到该目录下
         FILEINFO finfo;
         finfo.HasNext = FALSE;
-        finfo.IsInvalid = TRUE;
-        finfo.IsDirectory = TRUE;
-        memcpy(finfo.szFileName, strPath.c_str(), strPath.size());
+        /* finfo.IsInvalid = TRUE;
+         finfo.IsDirectory = TRUE;
+         memcpy(finfo.szFileName, strPath.c_str(), strPath.size());*/
         CPacket pack(2, (BYTE*)&finfo, sizeof(finfo));
         CServerSocket::getInstance()->Send(pack);
         OutputDebugString(_T("没有访问当前文件夹权限"));
         return -2;
-    }
-
-    _finddata_t fdata;
-    int hfind = 0;
-    if ((hfind =_findfirst("*", &fdata))==-1) {
-        OutputDebugString(_T("没有找到任何文件"));
-        return -3;
     };
-
-    do {
+    _finddata_t fdata;
+    intptr_t hfind = 0;
+    //strPath += "*";
+    if ((hfind =_findfirst("*", &fdata)) == -1) {
+        OutputDebugString(_T("没有找到任何文件"));
         FILEINFO finfo;
-        finfo.IsDirectory = (fdata.attrib&_A_SUBDIR)!=0;
-        memcpy(finfo.szFileName, fdata.name, strlen(fdata.name));
+        finfo.HasNext = FALSE;
         CPacket pack(2, (BYTE*)&finfo, sizeof(finfo));
         CServerSocket::getInstance()->Send(pack);
+        return -3;
+    };
+    do {
+        FILEINFO finfo;
+        finfo.IsDirectory = (fdata.attrib & _A_SUBDIR)!=0;
+        memcpy(finfo.szFileName, fdata.name, strlen(fdata.name));
+        CPacket pack(2, (BYTE*)&finfo, sizeof(finfo));
+        TRACE(" send dir [%s]\r\n", finfo.szFileName);
+        CServerSocket::getInstance()->Send(pack);
     } while (!_findnext(hfind,&fdata));
+    _findclose(hfind); // 关闭文件查找句柄
     FILEINFO finfo;
     finfo.HasNext = FALSE;
     CPacket pack(2, (BYTE*)&finfo, sizeof(finfo));
@@ -343,25 +336,25 @@ int ExcuteCommand(int nCmd) {
     case 1://查看磁盘分区
         ret = MakeDriverInfo();
         break;
-    case 2:
+    case 2://查看文件
         ret = MakeDirctoryInfo();
         break;
-    case 3:
+    case 3://运行文件
         ret = RunFile();
         break;
-    case 4:
+    case 4://下载文件
         ret = DownLoadFile();
         break;
-    case 5:
+    case 5://鼠标
         ret = MouseEvent();
         break;
-    case 6:
+    case 6://监视屏幕
         ret = SendScreen();
         break;
-    case 7:
+    case 7://锁机
         ret = LockMachine();
         break;
-    case 8:
+    case 8://解锁
         ret = UnlockMachine();
         break;
     case 1981:
