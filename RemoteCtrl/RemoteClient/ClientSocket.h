@@ -8,6 +8,7 @@ using namespace std;
 #pragma pack(push)
 #pragma pack(1)
 
+
 class CPacket {
 public:
 	CPacket() :sHead(0), nLength(0), sCmd(0), sSum(0) {};
@@ -171,28 +172,44 @@ public:
 		}
 		return true;
 	};
+	void Dump(BYTE* pData, size_t nSize) {
+		string strOut;
+		for (size_t i = 0; i < nSize; i++)
+		{
+			char buf[8] = "";
+			if (i > 0 && (i % 16 == 0))
+			{
+				strOut += "\n";
+			};
+			snprintf(buf, sizeof(buf), "%02X ", pData[i] & 0XFF);
+			strOut += buf;
+		}
+		strOut += "\n";
+		OutputDebugStringA(strOut.c_str());
+	}
 
 #define BUFFER_SIZE 4096
+	
 	int DealCommand() {//?????????? 
 		if (m_sock == -1) return -1;
 		char* buffer = m_buffer.data();
-		memset(buffer, 0, BUFFER_SIZE);
-		size_t index = 0;//buffer中实际
+		static size_t index = 0;//buffer中实际
 		while (true) {
 			size_t len = recv(m_sock, buffer + index, BUFFER_SIZE - index, 0);//len :收到的数据大小
-			if (len <= 0) return -1;
+			if (len <= 0 && index<=0) return -1;
 			//TODO:处理命令
 			index += len;//index: buffer中实际存储的数据大小
 			len = index;
+			//Dump((BYTE*)buffer, len);
 			m_packet = CPacket((BYTE*)buffer, len);//len：输入：buffer中实际存储的数据大小 输出：本次处理的包的大小
+			
 			if (len > 0) {
 				memmove(buffer, buffer + len, BUFFER_SIZE - len);
 				index -= len;//index: buffer中剩余的数据的大小
 				return m_packet.sCmd;
 			}
-			return -1;
 		}
-
+		return -1;
 	}
 
 	bool Send(const char* pData, int nsize) {

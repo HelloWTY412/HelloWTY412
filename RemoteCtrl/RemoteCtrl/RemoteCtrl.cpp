@@ -94,6 +94,7 @@ int MakeDirctoryInfo() {
     finfo.HasNext = FALSE;
     CPacket pack(2, (BYTE*)&finfo, sizeof(finfo));
     CServerSocket::getInstance()->Send(pack);
+    
     return 0;
 }
 
