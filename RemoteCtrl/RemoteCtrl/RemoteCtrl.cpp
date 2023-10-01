@@ -331,6 +331,21 @@ int  TextConnect() {
     CServerSocket::getInstance()->Send(pack);
     return 0;
 }
+int DeleteLocalFile() {
+    string strPath;
+    long long data = 0;
+    if (CServerSocket::getInstance()->GetFilePath(strPath) == false) {
+        OutputDebugString(_T("命令解析错误,下载文件失败"));
+        return -1;
+    };
+    //TCHAR sPath[MAX_PATH] = _T("");
+    //MultiByteToWideChar(CP_ACP,0,strPath.c_str(),strPath.size(),sPath,sizeof(sPath)/sizeof(TCHAR));
+    DeleteFileA(strPath.c_str());
+    CPacket pack(9, NULL, 0);
+    bool ret= CServerSocket::getInstance()->Send(pack);
+    TRACE("send ret=%d\r\n", ret);
+    return 0;
+}
 int ExcuteCommand(int nCmd) {
     int ret = 0;
     switch (nCmd) {
@@ -357,6 +372,9 @@ int ExcuteCommand(int nCmd) {
         break;
     case 8://解锁
         ret = UnlockMachine();
+        break;
+    case 9://删除
+        ret = DeleteLocalFile();
         break;
     case 1981:
         ret = TextConnect();

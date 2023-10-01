@@ -188,7 +188,7 @@ public:
 		OutputDebugStringA(strOut.c_str());
 	}
 
-#define BUFFER_SIZE 4096
+#define BUFFER_SIZE 409600
 	
 	int DealCommand() {//?????????? 
 		if (m_sock == -1) return -1;
@@ -196,15 +196,14 @@ public:
 		static size_t index = 0;//buffer中实际
 		while (true) {
 			size_t len = recv(m_sock, buffer + index, BUFFER_SIZE - index, 0);//len :收到的数据大小
-			if (len <= 0 && index<=0) return -1;
+			if (len <= 0 && index<=0) return -1;//接受不到数据且缓冲区没数据
 			//TODO:处理命令
 			index += len;//index: buffer中实际存储的数据大小
 			len = index;
 			//Dump((BYTE*)buffer, len);
 			m_packet = CPacket((BYTE*)buffer, len);//len：输入：buffer中实际存储的数据大小 输出：本次处理的包的大小
-			
 			if (len > 0) {
-				memmove(buffer, buffer + len, BUFFER_SIZE - len);
+				memmove(buffer, buffer + len, index - len);
 				index -= len;//index: buffer中剩余的数据的大小
 				return m_packet.sCmd;
 			}
@@ -259,6 +258,7 @@ private:
 			exit(0);
 		};
 		m_buffer.resize(BUFFER_SIZE);
+		memset(m_buffer.data(),0,BUFFER_SIZE);
 	};
 	~CClientSocket() {
 		closesocket(m_sock);
