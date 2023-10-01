@@ -130,6 +130,7 @@ int DownLoadFile() {
         //先发送文件大小
         fseek(pFile, 0, SEEK_END);
         data = _ftelli64(pFile);
+        TRACE("Server nLength=%d\r\n", data);
         CPacket head(4, (BYTE*)&data, 8);
         CServerSocket::getInstance()->Send(head);
         fseek(pFile, 0, SEEK_SET);
@@ -246,7 +247,7 @@ int  SendScreen() {
     int nWidth = GetDeviceCaps(hscreen,HORZRES);
     int nHeight =GetDeviceCaps(hscreen, VERTRES);
     screen.Create(nWidth,nHeight,nBitPerPixsl);//创建图像 
-    BitBlt(screen.GetDC(), 0, 0, 1096, 1020, hscreen, 0, 0, SRCCOPY);//复制
+    BitBlt(screen.GetDC(), 0, 0, screen.GetWidth(), screen.GetHeight(), hscreen, 0, 0, SRCCOPY);//复制
     ReleaseDC(NULL, hscreen);//释放hscreen
     HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE,0);
     if (hMem ==NULL) return-1;
@@ -259,6 +260,7 @@ int  SendScreen() {
         PBYTE pData=(PBYTE)GlobalLock(hMem);//会返回一个指向被分配内存地址的指针
         SIZE_T nSize = GlobalSize(hMem);
         CPacket pack(6, pData, nSize);
+        TRACE("Server picture size:%d\r\n", nSize);
         CServerSocket::getInstance()->Send(pack);
         GlobalUnlock(hMem);
     }

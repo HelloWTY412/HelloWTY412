@@ -1,11 +1,19 @@
-﻿  RemoteClient.cpp
+﻿  ClientSocket.cpp
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\ClientSocket.h(17,19): warning C4267: “=”: 从“size_t”转换到“DWORD”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\ClientSocket.h(198,58): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+  RemoteClient.cpp
 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\ClientSocket.h(17,19): warning C4267: “=”: 从“size_t”转换到“DWORD”，可能丢失数据
 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\ClientSocket.h(198,58): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
   RemoteClientDlg.cpp
 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\ClientSocket.h(17,19): warning C4267: “=”: 从“size_t”转换到“DWORD”，可能丢失数据
 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\ClientSocket.h(198,58): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\RemoteClientDlg.cpp(377,37): warning C4244: “参数”: 从“WPARAM”转换到“int”，可能丢失数据
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\RemoteClientDlg.cpp(400,12): warning C4244: “初始化”: 从“LRESULT”转换到“int”，可能丢失数据
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\RemoteClientDlg.cpp(430,13): warning C4002: 类函数宏的调用“_T”参数过多
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\RemoteClientDlg.cpp(402,12): warning C4244: “初始化”: 从“LRESULT”转换到“int”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\RemoteClientDlg.cpp(439,13): warning C4002: 类函数宏的调用“_T”参数过多
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\RemoteClientDlg.cpp(462,13): warning C4244: “初始化”: 从“LRESULT”转换到“int”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\RemoteClientDlg.cpp(475,61): warning C4267: “参数”: 从“size_t”转换到“ULONG”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\RemoteClientDlg.cpp(495,10): warning C4244: “初始化”: 从“WPARAM”转换到“int”，可能丢失数据
+  WatchDialog.cpp
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\ClientSocket.h(17,19): warning C4267: “=”: 从“size_t”转换到“DWORD”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\ClientSocket.h(198,58): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
   正在生成代码...
   RemoteClient.vcxproj -> D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\x64\Debug\RemoteClient.exe

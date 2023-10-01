@@ -28,10 +28,24 @@ public:
 	void LoadFileInfo();
 	void LoadFileCurrent();
 private:
-	static void threadEntryForDownFule(void* arg);
+	static void threadEntryForDownFile(void* arg);
 	void threadDownFile();
+	static void threadEntryForWatchData(void* arg);
+	void threadWatchData();
+public:
+	bool isFull()const {
+		return m_isFull;
+	}
+	CImage& GetImage() {
+		return m_image;
+	}
+	void SetImageStatus(bool isFull=false) {
+		m_isFull = isFull;
+	}
 // 实现
 protected:
+	CImage m_image;
+	bool m_isFull;//false没满，true满了
 	HICON m_hIcon;
 	CStatusDlg m_dlgStatus;
 	// 生成的消息映射函数
@@ -57,4 +71,7 @@ public:
 	afx_msg void OnDeleteFile();
 	afx_msg void OnRunFile();
 	afx_msg LRESULT OnSendPacket(WPARAM wParam,LPARAM lParam);
+	afx_msg void OnBnClickedBtnStartWatch();
+//	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
 };

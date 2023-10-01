@@ -188,7 +188,7 @@ public:
 		OutputDebugStringA(strOut.c_str());
 	}
 
-#define BUFFER_SIZE 409600
+#define BUFFER_SIZE 819200//100KB
 	
 	int DealCommand() {//?????????? 
 		if (m_sock == -1) return -1;

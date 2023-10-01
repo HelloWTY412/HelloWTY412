@@ -7,6 +7,6 @@ D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\RemoteCtrl.cpp(44,31): w
           [
               _Elem=char
           ]
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\RemoteCtrl.cpp(184,9): warning C4102: “defult”: 未引用的标签
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\RemoteCtrl.cpp(283,20): warning C4244: “*=”: 从“double”转换到“LONG”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\RemoteCtrl.cpp(185,9): warning C4102: “defult”: 未引用的标签
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\RemoteCtrl.cpp(285,20): warning C4244: “*=”: 从“double”转换到“LONG”，可能丢失数据
   RemoteCtrl.vcxproj -> D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\x64\Debug\RemoteCtrl.exe
