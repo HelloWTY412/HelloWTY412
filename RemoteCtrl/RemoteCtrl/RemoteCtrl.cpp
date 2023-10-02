@@ -247,7 +247,7 @@ int  SendScreen() {
     int nWidth = GetDeviceCaps(hscreen,HORZRES);
     int nHeight =GetDeviceCaps(hscreen, VERTRES);
     screen.Create(nWidth,nHeight,nBitPerPixsl);//创建图像 
-    BitBlt(screen.GetDC(), 0, 0, screen.GetWidth(), screen.GetHeight(), hscreen, 0, 0, SRCCOPY);//复制
+    BitBlt(screen.GetDC(), 0, 0, nWidth, nHeight, hscreen, 0, 0, SRCCOPY);//复制
     ReleaseDC(NULL, hscreen);//释放hscreen
     HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE,0);
     if (hMem ==NULL) return-1;

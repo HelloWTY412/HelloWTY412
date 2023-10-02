@@ -448,13 +448,14 @@ void CRemoteClientDlg::threadEntryForWatchData(void* arg)
 }
 
 void CRemoteClientDlg::threadWatchData() {
-	//Sleep(50);
+	//可能存在异步，导致程序崩溃
+	Sleep(50);
 	CClientSocket* pClient = NULL;
 	do {
 		pClient= CClientSocket::getInstance();
 	} while (pClient == NULL);
 	//ULONGLONG tick = GetTickCount64();
-	for (;;) {
+	while(!m_isClosed) {
 		//if (GetTickCount64() - tick < 50) {//增加间隔
 		//	Sleep(GetTickCount64() - tick);
 		//}
@@ -476,6 +477,7 @@ void CRemoteClientDlg::threadWatchData() {
 					TRACE("Client picture size:%d\r\n", pClient->GetPacket().strData.size());
 					LARGE_INTEGER bg = { 0 };
 					pStream->Seek(bg, STREAM_SEEK_SET, NULL);
+					if((HBITMAP)m_image!=NULL) m_image.Destroy();
 					m_image.Load(pStream);
 					m_isFull = true;
 				}
@@ -559,9 +561,12 @@ void CRemoteClientDlg::OnRunFile()
 void CRemoteClientDlg::OnBnClickedBtnStartWatch()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	m_isClosed = false;
 	CWatchDialog dlg(this);
-	_beginthread(CRemoteClientDlg::threadEntryForWatchData, 0, this);
+	HANDLE hThread=(HANDLE)_beginthread(CRemoteClientDlg::threadEntryForWatchData, 0, this);
 	dlg.DoModal();
+	m_isClosed = true;
+	WaitForSingleObject(hThread,500);//结束线程
 }
 
 

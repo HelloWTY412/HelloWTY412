@@ -42,10 +42,13 @@ public:
 	void SetImageStatus(bool isFull=false) {
 		m_isFull = isFull;
 	}
-// 实现
-protected:
+private:
 	CImage m_image;
 	bool m_isFull;//false没满，true满了
+	bool m_isClosed;//监视是否关闭
+// 实现
+protected:
+	
 	HICON m_hIcon;
 	CStatusDlg m_dlgStatus;
 	// 生成的消息映射函数
