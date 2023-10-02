@@ -505,8 +505,10 @@ LRESULT CRemoteClientDlg::OnSendPacket(WPARAM wParam, LPARAM lParam) {
 	case 5: {
 		ret = SendCommandPacket(cmd, wParam & 1, (BYTE*)lParam, sizeof(MOUSEEV));
 	}
-		  break;
+	 break;
 	case 6:
+	case 7:
+	case 8:
 	{
 		 ret = SendCommandPacket(cmd, wParam & 1);
 	}
@@ -514,7 +516,6 @@ LRESULT CRemoteClientDlg::OnSendPacket(WPARAM wParam, LPARAM lParam) {
 	default:
 		ret = 1;
 	}
-
 	return ret;
 }
 

@@ -41,6 +41,8 @@ BEGIN_MESSAGE_MAP(CWatchDialog, CDialog)
 //	ON_WM_MBUTTONDBLCLK()
 	ON_WM_RBUTTONUP()
 	ON_WM_MOUSEMOVE()
+	ON_BN_CLICKED(IDC_BTN_LOCK, &CWatchDialog::OnBnClickedBtnLock)
+	ON_BN_CLICKED(IDC_BTN_UNLOCK, &CWatchDialog::OnBnClickedBtnUnlock)
 END_MESSAGE_MAP()
 
 
@@ -235,4 +237,20 @@ void CWatchDialog::OnOK()//屏蔽回车键
 	// TODO: 在此添加专用代码和/或调用基类
 
 	//CDialog::OnOK();
+}
+
+
+void CWatchDialog::OnBnClickedBtnLock()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	CRemoteClientDlg* pParent = (CRemoteClientDlg*)GetParent();
+	pParent->SendMessage(WM_SEND_PACKET, 7 << 1 | 1);
+}
+
+
+void CWatchDialog::OnBnClickedBtnUnlock()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	CRemoteClientDlg* pParent = (CRemoteClientDlg*)GetParent();
+	pParent->SendMessage(WM_SEND_PACKET, 8 << 1 | 1);
 }
