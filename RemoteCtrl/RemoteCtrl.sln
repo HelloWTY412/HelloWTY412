@@ -7,6 +7,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RemoteCtrl", "RemoteCtrl\Re
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RemoteClient", "RemoteClient\RemoteClient.vcxproj", "{C45478EA-E148-4A0D-B528-34B7CA051A81}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决方案项", "{870816DC-0E40-4408-8210-9073A5803113}"
+	ProjectSection(SolutionItems) = preProject
+		远程控制系统设计.uml = 远程控制系统设计.uml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
