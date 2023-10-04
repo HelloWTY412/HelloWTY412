@@ -17,7 +17,7 @@ CCommand::CCommand():threadid(0)
 		{8,&CCommand::UnlockMachine},
 		{9,&CCommand::DeleteLocalFile},
 		{1981,&CCommand::TextConnect},
-		{-1,}
+		{-1,NULL}
 	};
 	for (size_t i = 0; i < data[i].nCmd; i++)
 	{
@@ -25,12 +25,12 @@ CCommand::CCommand():threadid(0)
 	}
 }
 
-int CCommand::ExcuteCommand(int nCmd)
+int CCommand::ExcuteCommand(int nCmd, list<CPacket>& lstPacket, CPacket& inpacket)
 {
 	map<int, CMDFUNC>::iterator it = m_mapFunction.find(nCmd);
 	if (it == m_mapFunction.end()) {//Ã»ÕÒµ½ÃüÁî
 		return -1;
 	}
-	return (this->*it->second)();
+	return (this->*it->second)(lstPacket, inpacket);
 }
 
