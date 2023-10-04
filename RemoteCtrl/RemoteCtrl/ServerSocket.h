@@ -156,7 +156,8 @@ public:
 		sockaddr_in serv_adr;
 		memset(&serv_adr, 0, sizeof(serv_adr));
 		serv_adr.sin_family = AF_INET;
-		serv_adr.sin_addr.s_addr = INADDR_ANY;//监听所有IP（不能假定只有一个IP）
+		//serv_adr.sin_addr.s_addr = INADDR_ANY;//监听所有IP（不能假定只有一个IP）
+		serv_adr.sin_addr.s_addr = INADDR_ANY;
 		serv_adr.sin_port = htons(4120);
 		//绑定
 		if(bind(m_sock, (sockaddr*)&serv_adr, sizeof(serv_adr))==-1)  return false;

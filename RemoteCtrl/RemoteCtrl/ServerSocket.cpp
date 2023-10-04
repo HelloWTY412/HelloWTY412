@@ -7,4 +7,4 @@
 CServerSocket* CServerSocket::m_instance = NULL;
 CServerSocket::CHelper CServerSocket::m_helper;
 
-//erverSocket* pserver = CServerSocket::getInstance();
+//ServerSocket* pserver = CServerSocket::getInstance();

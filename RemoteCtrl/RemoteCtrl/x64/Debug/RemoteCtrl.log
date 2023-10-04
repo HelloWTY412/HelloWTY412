@@ -1,12 +1,28 @@
-﻿  RemoteCtrl.cpp
+﻿  pch.cpp
+  Command.cpp
 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\ServerSocket.h(14,19): warning C4267: “=”: 从“size_t”转换到“DWORD”，可能丢失数据
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\ServerSocket.h(188,56): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\RemoteCtrl.cpp(42,22): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\RemoteCtrl.cpp(44,31): warning C4267: “参数”: 从“size_t”转换到“_Elem”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\ServerSocket.h(189,56): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\Command.h(91,26): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\Command.h(93,35): warning C4267: “参数”: 从“size_t”转换到“_Elem”，可能丢失数据
           with
           [
               _Elem=char
           ]
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\RemoteCtrl.cpp(185,9): warning C4102: “defult”: 未引用的标签
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\RemoteCtrl.cpp(285,20): warning C4244: “*=”: 从“double”转换到“LONG”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\Command.h(232,13): warning C4102: “defult”: 未引用的标签
+  LockInfoDialog.cpp
+  RemoteCtrl.cpp
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\ServerSocket.h(14,19): warning C4267: “=”: 从“size_t”转换到“DWORD”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\ServerSocket.h(189,56): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\Command.h(91,26): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\Command.h(93,35): warning C4267: “参数”: 从“size_t”转换到“_Elem”，可能丢失数据
+          with
+          [
+              _Elem=char
+          ]
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\Command.h(232,13): warning C4102: “defult”: 未引用的标签
+  ServerSocket.cpp
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\ServerSocket.h(14,19): warning C4267: “=”: 从“size_t”转换到“DWORD”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\ServerSocket.h(189,56): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+  Tool.cpp
+  正在生成代码...
   RemoteCtrl.vcxproj -> D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\x64\Debug\RemoteCtrl.exe
