@@ -18,4 +18,4 @@ D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\RemoteClientDlg.cpp(49
 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\ClientSocket.h(17,19): warning C4267: “=”: 从“size_t”转换到“DWORD”，可能丢失数据
 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\ClientSocket.h(198,58): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
   正在生成代码...
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\StatusDlg.cpp : fatal  error C1090: PDB API 调用失败，错误代码“3”: D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\x64\Debug\vc143.pdb
+  RemoteClient.vcxproj -> D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\x64\Debug\RemoteClient.exe
