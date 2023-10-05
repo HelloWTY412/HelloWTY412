@@ -22,16 +22,15 @@ public:
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 支持
 
-	int SendCommandPacket(int nCmd, bool Close=TRUE, BYTE* pData = NULL, size_t nLength = 0);
 	CString GetPath(HTREEITEM hTree);
 	void DeleteTreeChildrenItem(HTREEITEM hTreeSelected);
 	void LoadFileInfo();
 	void LoadFileCurrent();
 private:
-	static void threadEntryForDownFile(void* arg);
-	void threadDownFile();
-	static void threadEntryForWatchData(void* arg);
-	void threadWatchData();
+	//static void threadEntryForDownFile(void* arg);
+	//void threadDownFile();
+	//static void threadEntryForWatchData(void* arg);
+	//void threadWatchData();
 public:
 	bool isFull()const {
 		return m_isFull;
@@ -45,10 +44,10 @@ public:
 private:
 	CImage m_image;
 	bool m_isFull;//false没满，true满了
-	bool m_isClosed;//监视是否关闭
+	
 // 实现
 protected:
-	
+	bool m_isClosed;//监视是否关闭
 	HICON m_hIcon;
 	CStatusDlg m_dlgStatus;
 	// 生成的消息映射函数
@@ -77,4 +76,6 @@ public:
 	afx_msg void OnBnClickedBtnStartWatch();
 //	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg void OnIpnFieldchangedIpaddressServ(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnEnChangeEditPort();
 };
