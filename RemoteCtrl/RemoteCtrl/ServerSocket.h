@@ -20,34 +20,32 @@ public:
 	};
 
 	
-	int Run(SOCKET_CALLBACK callback,void* arg,short port=4120) {
+	int Run(SOCKET_CALLBACK callback, void* arg, short port = 4120) {
 		//TODO: 在此处为应用程序的行为编写代码。
 		  //socket,bind,listen,accept,read,write,close
 		  //套接字初始化
 		int ret = InitSocket(port);
-		if (ret == false) return-1;
+		if (ret == false) return -1;
 		list<CPacket> lstPacket;
 		m_callback = callback;
 		m_arg = arg;
 		int count = 0;
-		while(true) {
-			if (AcceptClient() == false) {
-				if (count >= 3)
-					return -2;
+		while (true) {
+			while (AcceptClient() == false) {//没连接到
+				if (count >= 3) return -2;//连接3次以上
+				count++;
 			}
-			count++;
-		}
-		 ret = DealCommand();
-		if (ret > 0) {
-			m_callback(m_arg, ret, lstPacket, m_packet);
-			while (lstPacket.size() > 0) {
-				Send(lstPacket.front());
-				lstPacket.pop_front();
+			ret = DealCommand();
+			if (ret > 0) {
+				m_callback(m_arg, ret, lstPacket, m_packet);
+				while (lstPacket.size() > 0) {
+					Send(lstPacket.front());
+					lstPacket.pop_front();
+				}
 			}
+			CloseClient();
 		}
-		CloseClient();
 	}
-
 protected:
 	bool InitSocket(short port) {
 		// CServerSocket::getInstance();

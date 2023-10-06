@@ -86,7 +86,6 @@ BEGIN_MESSAGE_MAP(CRemoteClientDlg, CDialogEx)
 	ON_COMMAND(ID_DOWNLOAD_FILE, &CRemoteClientDlg::OnDownloadFile)
 	ON_COMMAND(ID_DELETE_FILE, &CRemoteClientDlg::OnDeleteFile)
 	ON_COMMAND(ID_RUN_FILE, &CRemoteClientDlg::OnRunFile)
-	ON_MESSAGE(WM_SEND_PACKET,&CRemoteClientDlg::OnSendPacket)
 	ON_BN_CLICKED(IDC_BTN_START_WATCH, &CRemoteClientDlg::OnBnClickedBtnStartWatch)
 //	ON_WM_TIMER()
     ON_WM_TIMER()
@@ -129,14 +128,13 @@ BOOL CRemoteClientDlg::OnInitDialog()
 	// TODO: 在此添加额外的初始化代码
 	UpdateData();
 	//m_server_address = 0x7F000001;//127.0.0.1
-	 m_server_address = 0xC0A80166;//192.168.1.102
+	 m_server_address = 0xC0A80B05;//192.168.11.5
 	m_nPort = _T("4120");
 	CClientController* pController = CClientController::getInstance();
 	pController->UpdateAdress(m_server_address, atoi((LPCTSTR)m_nPort));
 	UpdateData(false);
 	m_dlgStatus.Create(IDD_DLG_STATUS, this);
 	m_dlgStatus.ShowWindow(SW_HIDE);
-	m_isFull = false;
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -352,33 +350,6 @@ void CRemoteClientDlg::OnTvnSelchangedTreeDir(NMHDR* pNMHDR, LRESULT* pResult)
 }
 
 
-LRESULT CRemoteClientDlg::OnSendPacket(WPARAM wParam, LPARAM lParam) {
-	int ret = 0;
-	int cmd = wParam >> 1;
-	switch (cmd) {
-	case 4:
-	{
-		CString strFile = (LPCSTR)lParam;
-		 ret = CClientController::getInstance()->SendCommandPacket(cmd,wParam & 1, (BYTE*)(LPCSTR)strFile, strFile.GetLength());
-	}
-	break;
-	case 5: {
-		ret = CClientController::getInstance()->SendCommandPacket(cmd, wParam & 1, (BYTE*)lParam, sizeof(MOUSEEV));
-	}
-	 break;
-	case 6:
-	case 7:
-	case 8:
-	{
-		 ret = CClientController::getInstance()->SendCommandPacket(cmd, wParam & 1);
-	}
-	break;
-	default:
-		ret = 1;
-	}
-	return ret;
-}
-
 void CRemoteClientDlg::OnDownloadFile()
 {
 	// TODO: 在此添加命令处理程序代码
@@ -388,7 +359,7 @@ void CRemoteClientDlg::OnDownloadFile()
 	//拿到文件路径
 	HTREEITEM hSelected = m_Tree.GetSelectedItem();
 	strFile = GetPath(hSelected) + strFile;
-	int ret = CClientController::getInstance()->DownloadFile(strFile);
+	int ret = CClientController::getInstance()->DownFile(strFile);
 	if (ret != 0) {
 		MessageBox(_T("下载失败"));
 	}

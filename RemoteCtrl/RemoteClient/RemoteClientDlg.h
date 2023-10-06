@@ -6,7 +6,7 @@
 #include"ClientSocket.h"
 #include"StatusDlg.h"
 
-#define WM_SEND_PACKET (WM_USER+1)
+
 // CRemoteClientDlg 对话框
 class CRemoteClientDlg : public CDialogEx
 {
@@ -32,18 +32,14 @@ private:
 	//static void threadEntryForWatchData(void* arg);
 	//void threadWatchData();
 public:
-	bool isFull()const {
-		return m_isFull;
-	}
+	
 	CImage& GetImage() {
 		return m_image;
 	}
-	void SetImageStatus(bool isFull=false) {
-		m_isFull = isFull;
-	}
+
 private:
 	CImage m_image;
-	bool m_isFull;//false没满，true满了
+	
 	
 // 实现
 protected:
@@ -72,7 +68,6 @@ public:
 	afx_msg void OnDownloadFile();
 	afx_msg void OnDeleteFile();
 	afx_msg void OnRunFile();
-	afx_msg LRESULT OnSendPacket(WPARAM wParam,LPARAM lParam);
 	afx_msg void OnBnClickedBtnStartWatch();
 //	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnTimer(UINT_PTR nIDEvent);

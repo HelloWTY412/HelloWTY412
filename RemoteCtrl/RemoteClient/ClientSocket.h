@@ -190,13 +190,13 @@ public:
 
 #define BUFFER_SIZE 1048576//1MB
 	
-	int DealCommand() {//?????????? 
+	int DealCommand() {
 		if (m_sock == -1) return -1;
-		char* buffer = m_buffer.data();
+		char* buffer = m_buffer.data();//多线程发送命令可能会引发冲突
 		static size_t index = 0;//buffer中实际
 		while (true) {
 			size_t len = recv(m_sock, buffer + index, BUFFER_SIZE - index, 0);//len :收到的数据大小
-			if (len <= 0 && index<=0) return -1;//接受不到数据且缓冲区没数据
+			if (((int)len <= 0 )&&((int) index<=0)) return -1;//接受不到数据且缓冲区没数据
 			//TODO:处理命令
 			index += len;//index: buffer中实际存储的数据大小
 			len = index;
@@ -246,12 +246,12 @@ public:
 		closesocket(m_sock);
 		m_sock = INVALID_SOCKET;
 	}
-	void UpdateAdress(int nIP,int nPort) {
+	void UpdateAdress(DWORD nIP,int nPort) {
 		m_nIP = nIP;
 		m_nPort = nPort;
 	}
 private:
-	int m_nIP;
+	DWORD m_nIP;
 	int m_nPort;
 	vector<char> m_buffer;
 	SOCKET m_sock;

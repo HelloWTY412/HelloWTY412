@@ -24,7 +24,7 @@ public:
 	//发送消息
 	LRESULT SendMessage(MSG msg);
 	//更新网络服务器的地址
-	void UpdateAdress(int nIP,int nPort) {
+	void UpdateAdress(DWORD nIP,int nPort) {
 		CClientSocket::getInstance()->UpdateAdress(nIP, nPort);
 	}
 	int DealCommand() {
@@ -48,41 +48,14 @@ public:
 //6监视屏幕
 //7锁机
 //8解锁
-	int SendCommandPacket(int nCmd, bool bAutoClose=true, BYTE* pData=NULL, size_t nLength=0) {
-		CClientSocket* pClient = CClientSocket::getInstance();
-		if (pClient->InitSocket() == false) return false;
-		pClient->Send(CPacket(nCmd, pData,nLength));
-		int cmd =DealCommand();
-		if (bAutoClose == TRUE) {
-			CloseSocket();
-		}
-		return cmd;
-	}
+	int SendCommandPacket(int nCmd, bool bAutoClose = true, BYTE* pData = NULL, size_t nLength = 0);
 
 	int GetImage(CImage& image) {
 		CClientSocket* pClient = CClientSocket::getInstance();
 		return CTool::Bytes2Image(image, pClient->GetPacket().strData.c_str());
 	}
 
-	int DownloadFile(CString strPath) {
-		CFileDialog dlg(FALSE, NULL,
-			strPath, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
-			NULL, &m_remoteDlg);
-		if (dlg.DoModal() == IDOK) {
-			m_strRemote = strPath;
-			m_strLocal = dlg.GetPathName();
-			m_hThreadDownload=(HANDLE)_beginthread(&CClientController::threadEntryForDownFile, 0, this);
-			if (WaitForSingleObject(m_hThreadDownload, 0) != WAIT_TIMEOUT) {
-				return -1;
-			}
-			m_remoteDlg.BeginWaitCursor();
-			m_statusDlg.m_info.SetWindowText(_T("命令正在执行!"));
-			m_statusDlg.ShowWindow(SW_SHOW);
-			m_statusDlg.CenterWindow(&m_remoteDlg);
-			m_statusDlg.SetActiveWindow();
-		}
-		return 0;
-	}
+	int DownFile(CString strPath);
 
 	void StartWatchScreen();
 protected:
@@ -120,7 +93,6 @@ protected:
 	LRESULT OnShowStatus(UINT nMsg, WPARAM wParam, LPARAM lParam);
 	LRESULT OnShowWatcher(UINT nMsg, WPARAM wParam, LPARAM lParam);
 private:
-	
 	typedef struct MsgInfo{
 		MSG msg;//发送的消息
 		LRESULT result;//收到的结果
@@ -155,7 +127,7 @@ private:
 	class CHelper {
 	public:
 		CHelper() {
-			CClientController::getInstance();
+			//CClientController::getInstance();
 		}
 		~CHelper() {
 			CClientController::releaseInstance();

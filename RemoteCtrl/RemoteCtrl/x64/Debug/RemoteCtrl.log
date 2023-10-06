@@ -1,7 +1,7 @@
 ﻿  pch.cpp
   Command.cpp
 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\Packet.h(14,19): warning C4267: “=”: 从“size_t”转换到“DWORD”，可能丢失数据
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\ServerSocket.h(90,56): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\ServerSocket.h(88,56): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\Command.h(105,26): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\Command.h(107,35): warning C4267: “参数”: 从“size_t”转换到“_Elem”，可能丢失数据
           with
@@ -12,7 +12,7 @@ D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\Command.h(237,13): warni
   LockInfoDialog.cpp
   RemoteCtrl.cpp
 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\Packet.h(14,19): warning C4267: “=”: 从“size_t”转换到“DWORD”，可能丢失数据
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\ServerSocket.h(90,56): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\ServerSocket.h(88,56): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\Command.h(105,26): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\Command.h(107,35): warning C4267: “参数”: 从“size_t”转换到“_Elem”，可能丢失数据
           with
@@ -22,7 +22,7 @@ D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\Command.h(107,35): warni
 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\Command.h(237,13): warning C4102: “defult”: 未引用的标签
   ServerSocket.cpp
 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\Packet.h(14,19): warning C4267: “=”: 从“size_t”转换到“DWORD”，可能丢失数据
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\ServerSocket.h(90,56): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\ServerSocket.h(88,56): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
   Tool.cpp
   正在生成代码...
   RemoteCtrl.vcxproj -> D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\x64\Debug\RemoteCtrl.exe

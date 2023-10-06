@@ -20,11 +20,19 @@ public:
 	int m_nObjWidth;
 	int m_nObjHeight;
 protected:
+	bool m_isFull;//false没满，true满了
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
+
 
 	DECLARE_MESSAGE_MAP()
 public:
 	CPoint UserPoint2RemoteScreenPoint(CPoint& point,bool isScreen=false);
+	void SetImageStatus(bool isFull = false) {
+		m_isFull = isFull;
+	}
+	bool isFull()const {
+		return m_isFull;
+	}
 public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	virtual BOOL OnInitDialog();

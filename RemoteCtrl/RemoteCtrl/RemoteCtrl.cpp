@@ -34,21 +34,19 @@ int main()
         }
         else
         {
-            CCommand cmd;
-            int ret= CServerSocket::getInstance()->Run(&CCommand::RunCommand,&cmd);
-            switch (ret) {
-            case -1:
-                MessageBox(NULL, _T("网络初始化异常"), _T("网络初始化失败"), MB_OK | MB_ICONERROR);
-                exit(0);
-                break;
-            case -2:
-                MessageBox(NULL, _T("多次无法正常接入"), _T("接入用户失败"), MB_OK | MB_ICONERROR);
-                exit(0);
-                break;
-            }
+               CCommand cmd;
+                int ret = CServerSocket::getInstance()->Run(&CCommand::RunCommand, &cmd);
+                switch (ret) {
+                case -1:
+                    MessageBox(NULL, _T("网络初始化异常"), _T("网络初始化失败"), MB_OK | MB_ICONERROR);
+                    exit(0);
+                    break;
+                case -2:
+                    MessageBox(NULL, _T("多次无法正常接入"), _T("接入用户失败"), MB_OK | MB_ICONERROR);
+                    exit(0);
+                    break;
+                }
         }
-       
-
     }
     else
     {

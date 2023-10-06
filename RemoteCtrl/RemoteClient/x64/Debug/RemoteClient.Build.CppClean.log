@@ -1,6 +1,4 @@
 d:\study\remotcontrol\hellowty412\remotectrl\remoteclient\x64\debug\remoteclient.pch
-d:\study\remotcontrol\hellowty412\remotectrl\remoteclient\x64\debug\vc143.pdb
-d:\study\remotcontrol\hellowty412\remotectrl\remoteclient\x64\debug\vc143.idb
 d:\study\remotcontrol\hellowty412\remotectrl\remoteclient\x64\debug\pch.obj
 d:\study\remotcontrol\hellowty412\remotectrl\remoteclient\x64\debug\watchdialog.obj
 d:\study\remotcontrol\hellowty412\remotectrl\remoteclient\x64\debug\statusdlg.obj
@@ -8,9 +6,10 @@ d:\study\remotcontrol\hellowty412\remotectrl\remoteclient\x64\debug\remoteclient
 d:\study\remotcontrol\hellowty412\remotectrl\remoteclient\x64\debug\remoteclient.obj
 d:\study\remotcontrol\hellowty412\remotectrl\remoteclient\x64\debug\clientsocket.obj
 d:\study\remotcontrol\hellowty412\remotectrl\remoteclient\x64\debug\clientcontroller.obj
-d:\study\remotcontrol\hellowty412\remotectrl\remoteclient\x64\debug\remoteclient.ilk
+c:\users\。。。\appdata\local\tempvc143.pdb
 d:\study\remotcontrol\hellowty412\remotectrl\x64\debug\remoteclient.exe
-d:\study\remotcontrol\hellowty412\remotectrl\x64\debug\remoteclient.pdb
+d:\study\remotcontrol\hellowty412\remotectrl\remoteclient\x64\debug\remoteclient.ilk
+c:\users\。。。\appdata\local\tempremoteclient.pdb
 d:\study\remotcontrol\hellowty412\remotectrl\remoteclient\x64\debug\remoteclient.res
 d:\study\remotcontrol\hellowty412\remotectrl\remoteclient\x64\debug\remoteclient.tlog\cl.command.1.tlog
 d:\study\remotcontrol\hellowty412\remotectrl\remoteclient\x64\debug\remoteclient.tlog\cl.items.tlog
