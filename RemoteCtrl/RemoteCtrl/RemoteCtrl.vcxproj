@@ -122,6 +122,7 @@
       <NoEntryPoint>false</NoEntryPoint>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
       <ProgramDatabaseFile>$(TEMP)$(TargetName1).pdb</ProgramDatabaseFile>
+      <UACExecutionLevel>AsInvoker</UACExecutionLevel>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

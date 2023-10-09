@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "afxdialogex.h"
-
+#ifndef WM_SEND_PACK_ACK
+#define WM_SEND_PACK_ACK (WM_USER+2)
+#endif
 
 // CWatchDialog 对话框
 
@@ -19,6 +21,7 @@ public:
 public:
 	int m_nObjWidth;
 	int m_nObjHeight;
+	CImage m_image;
 protected:
 	bool m_isFull;//false没满，true满了
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
@@ -26,6 +29,9 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
+	CImage& GetImage() {
+		return m_image;
+	}
 	CPoint UserPoint2RemoteScreenPoint(CPoint& point,bool isScreen=false);
 	void SetImageStatus(bool isFull = false) {
 		m_isFull = isFull;
@@ -49,4 +55,5 @@ public:
 	virtual void OnOK();
 	afx_msg void OnBnClickedBtnLock();
 	afx_msg void OnBnClickedBtnUnlock();
+	afx_msg LRESULT OnSendPackAck(WPARAM wParam,LPARAM lParam);
 };

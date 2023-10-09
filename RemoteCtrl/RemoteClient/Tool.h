@@ -22,7 +22,7 @@ public:
         OutputDebugStringA(strOut.c_str());
     }
 
-   static int Bytes2Image(CImage& image, const string& strBuffer) {//数据转图片
+   static int Bytes2Image(CImage& image, const string& strBuffer) {//数据转图片(数据strBuffer写入image中)
 	   BYTE* pData = (BYTE*)strBuffer.c_str();
 	   HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, 0);
 	   if (hMem == NULL) {

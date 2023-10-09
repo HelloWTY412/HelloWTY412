@@ -18,29 +18,24 @@ public:
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_REMOTECLIENT_DIALOG };
 #endif
-
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 支持
-
-	CString GetPath(HTREEITEM hTree);
-	void DeleteTreeChildrenItem(HTREEITEM hTreeSelected);
-	void LoadFileInfo();
+public:
+	
 	void LoadFileCurrent();
+protected:
+	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 支持	
 private:
 	//static void threadEntryForDownFile(void* arg);
 	//void threadDownFile();
 	//static void threadEntryForWatchData(void* arg);
 	//void threadWatchData();
-public:
-	
-	CImage& GetImage() {
-		return m_image;
-	}
-
-private:
-	CImage m_image;
-	
-	
+	void DealCommand(WORD nCmd,const string& strData,LPARAM lParam);
+	void InitUIData();
+	void LoadFileInfo();
+	CString Str2Tree(const string& driver,CTreeCtrl& tree);
+    void UpdateFileInfo(const FILEINFO &finfo, HTREEITEM hParent);
+    void UpdateDownloadInfo(const string& strData, FILE* pFile);
+    CString GetPath(HTREEITEM hTree);
+    void DeleteTreeChildrenItem(HTREEITEM hTreeSelected);
 // 实现
 protected:
 	bool m_isClosed;//监视是否关闭
@@ -73,4 +68,5 @@ public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnIpnFieldchangedIpaddressServ(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnEnChangeEditPort();
+	afx_msg LRESULT OnSendPackAck(WPARAM wParam, LPARAM lParam);
 };

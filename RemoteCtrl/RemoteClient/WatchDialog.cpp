@@ -44,6 +44,7 @@ BEGIN_MESSAGE_MAP(CWatchDialog, CDialog)
 	ON_WM_MOUSEMOVE()
 	ON_BN_CLICKED(IDC_BTN_LOCK, &CWatchDialog::OnBnClickedBtnLock)
 	ON_BN_CLICKED(IDC_BTN_UNLOCK, &CWatchDialog::OnBnClickedBtnUnlock)
+	ON_MESSAGE(WM_SEND_PACK_ACK,&CWatchDialog::OnSendPackAck)
 END_MESSAGE_MAP()
 
 
@@ -55,7 +56,7 @@ BOOL CWatchDialog::OnInitDialog()
 
 	// TODO:  在此添加额外的初始化
 	m_isFull = false;
-	SetTimer(0,45,NULL);
+	//SetTimer(0,45,NULL);
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 异常: OCX 属性页应返回 FALSE
 }
@@ -64,34 +65,31 @@ BOOL CWatchDialog::OnInitDialog()
 
 void CWatchDialog::OnTimer(UINT_PTR nIDEvent)
 {
-	// TODO: 在此添加消息处理程序代码和/或调用默认值
-	if (nIDEvent == 0) {
-		CClientController* pParent = CClientController::getInstance();
-		if (m_isFull) {
-			CRect rect;
-			m_picture.GetWindowRect(rect);
-			CImage image;
-			pParent->GetImage(image);
-			if (m_nObjWidth == -1) {
-				m_nObjWidth = image.GetWidth();
-			}
-			if (m_nObjHeight == -1) {
-				m_nObjHeight = image.GetHeight();
-			}
-			image.StretchBlt(
-				m_picture.GetDC()->GetSafeHdc()
-			, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//绘制
-			m_picture.InvalidateRect(NULL);//重绘
-			image.Destroy();//销毁
-			m_isFull=false;//设置标志
-		}
-	}
+//	// TODO: 在此添加消息处理程序代码和/或调用默认值
+//	if (nIDEvent == 0) {
+//		
+//		if (m_isFull) {
+//			CRect rect;
+//			m_picture.GetWindowRect(rect);	
+//			m_nObjWidth = m_image.GetWidth();		
+//			m_nObjHeight = m_image.GetHeight();		
+//			m_image.StretchBlt(
+//				m_picture.GetDC()->GetSafeHdc()
+//			, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//绘制
+//			m_picture.InvalidateRect(NULL);//重绘
+//			m_image.Destroy();//销毁
+//			m_isFull=false;//设置标志
+//		}
+//	}
 	CDialog::OnTimer(nIDEvent);
 }
 
 CPoint CWatchDialog::UserPoint2RemoteScreenPoint(CPoint& point, bool isScreen)
 {
 	CRect ClientRect;
+	if (!isScreen) ClientToScreen(&point);
+	m_picture.ScreenToClient(&point);
+	TRACE("x=%d, y=%d \r\n", point.x,point.y);
 	if (isScreen) ScreenToClient(&point);
 	TRACE("x=%d,y=%d\r\n",point.x,point.y);
 	m_picture.GetWindowRect(ClientRect);
@@ -112,7 +110,7 @@ void CWatchDialog::OnStnClickedWatch()
 		event.ptXY = remote;
 		event.nButton = 0;//左键
 		event.nAction = 0;//单击
-		CClientController::getInstance()->SendCommandPacket(5, true, (BYTE*) & event, sizeof(event));
+		CClientController::getInstance()->SendCommandPacket(GetSafeHwnd(),5, true, (BYTE*)&event, sizeof(event));
 	}
 }
 
@@ -126,7 +124,7 @@ void CWatchDialog::OnLButtonDblClk(UINT nFlags, CPoint point)
 		event.ptXY = remote;
 		event.nButton = 0;
 		event.nAction = 1;//双击
-		CClientController::getInstance()->SendCommandPacket(5, true, (BYTE*)&event, sizeof(event));
+		CClientController::getInstance()->SendCommandPacket(GetSafeHwnd(), 5, true, (BYTE*)&event, sizeof(event));
 	}
 	CDialog::OnLButtonDblClk(nFlags, point);
 }
@@ -141,7 +139,7 @@ void CWatchDialog::OnLButtonDown(UINT nFlags, CPoint point)
 		event.ptXY = remote;
 		event.nButton = 0;
 		event.nAction = 2;//按下
-		CClientController::getInstance()->SendCommandPacket(5, true, (BYTE*)&event, sizeof(event));
+		CClientController::getInstance()->SendCommandPacket(GetSafeHwnd(), 5, true, (BYTE*)&event, sizeof(event));
 	}
 	CDialog::OnLButtonDown(nFlags, point);
 }
@@ -157,7 +155,7 @@ void CWatchDialog::OnLButtonUp(UINT nFlags, CPoint point)
 		event.ptXY = remote;
 		event.nButton = 0;
 		event.nAction = 3;//弹起
-		CClientController::getInstance()->SendCommandPacket(5, true, (BYTE*)&event, sizeof(event));
+		CClientController::getInstance()->SendCommandPacket(GetSafeHwnd(), 5, true, (BYTE*)&event, sizeof(event));
 	}
 	CDialog::OnLButtonUp(nFlags, point);
 }
@@ -173,7 +171,7 @@ void CWatchDialog::OnRButtonDblClk(UINT nFlags, CPoint point)
 		event.ptXY = remote;
 		event.nButton = 1;
 		event.nAction = 1;//双击 
-		CClientController::getInstance()->SendCommandPacket(5, true, (BYTE*)&event, sizeof(event));
+		CClientController::getInstance()->SendCommandPacket(GetSafeHwnd(), 5, true, (BYTE*)&event, sizeof(event));
 	}
 	CDialog::OnRButtonDblClk(nFlags, point);
 }
@@ -189,7 +187,7 @@ void CWatchDialog::OnRButtonDown(UINT nFlags, CPoint point)
 		event.ptXY = remote;
 		event.nButton = 1;
 		event.nAction = 2;//按下
-		CClientController::getInstance()->SendCommandPacket(5, true, (BYTE*)&event, sizeof(event));
+		CClientController::getInstance()->SendCommandPacket(GetSafeHwnd(), 5, true, (BYTE*)&event, sizeof(event));
 	}
 	CDialog::OnRButtonDown(nFlags, point);
 }
@@ -206,7 +204,7 @@ void CWatchDialog::OnRButtonUp(UINT nFlags, CPoint point)
 		event.ptXY = remote;
 		event.nButton = 1;
 		event.nAction = 3;//弹起
-		CClientController::getInstance()->SendCommandPacket(5, true, (BYTE*)&event, sizeof(event));
+		CClientController::getInstance()->SendCommandPacket(GetSafeHwnd(), 5, true, (BYTE*)&event, sizeof(event));
 	}
 	CDialog::OnRButtonUp(nFlags, point);
 }
@@ -222,7 +220,7 @@ void CWatchDialog::OnMouseMove(UINT nFlags, CPoint point)
 		event.ptXY = remote;
 		event.nButton = 8;//没有按键
 		event.nAction = 0;//移动
-		CClientController::getInstance()->SendCommandPacket(5, true, (BYTE*)&event, sizeof(event));
+		CClientController::getInstance()->SendCommandPacket(GetSafeHwnd(), 5, true, (BYTE*)&event, sizeof(event));
 	}
 	CDialog::OnMouseMove(nFlags, point);
 }
@@ -239,12 +237,54 @@ void CWatchDialog::OnOK()//屏蔽回车键
 void CWatchDialog::OnBnClickedBtnLock()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	CClientController::getInstance()->SendCommandPacket(7);
+	CClientController::getInstance()->SendCommandPacket(GetSafeHwnd(), 7);
 }
 
 
 void CWatchDialog::OnBnClickedBtnUnlock()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	CClientController::getInstance()->SendCommandPacket(8);
+	CClientController::getInstance()->SendCommandPacket(GetSafeHwnd(), 8);
+}
+
+LRESULT CWatchDialog::OnSendPackAck(WPARAM wParam, LPARAM lParam)
+{
+	if (lParam ==-1||(lParam==-2)) {
+		//错误处理
+
+	}
+	else if (lParam == 1) {
+		//对方关闭套接字
+
+	}else {
+		CPacket* pPacket = (CPacket*)wParam;
+		if (pPacket != NULL) {
+			CPacket head = *(CPacket*)wParam;
+			delete (CPacket*)wParam;
+			switch (head.sCmd) {
+			case 6 :
+			{
+				CTool::Bytes2Image(m_image, head.strData);
+				CRect rect;
+				m_picture.GetWindowRect(rect);
+				m_nObjWidth = m_image.GetWidth();
+				m_nObjHeight = m_image.GetHeight();
+				m_image.StretchBlt(
+					m_picture.GetDC()->GetSafeHdc()
+					, 0, 0, rect.Width(), rect.Height(), SRCCOPY);//绘制
+				m_picture.InvalidateRect(NULL);//重绘
+				m_image.Destroy();//销毁
+				m_isFull = false;//设置标志
+				break;
+			}
+			case 5:
+			case 7:
+			case 8:
+			default:
+				break;
+
+			}
+		}
+	}
+	return 0;
 }

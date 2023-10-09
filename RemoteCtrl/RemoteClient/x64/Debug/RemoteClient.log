@@ -1,6 +1,2 @@
-﻿  RemoteClientDlg.cpp
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\ClientSocket.h(17,19): warning C4267: “=”: 从“size_t”转换到“DWORD”，可能丢失数据
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\ClientSocket.h(198,58): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\ClientSocket.h(224,50): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\Tool.h(37,42): warning C4267: “参数”: 从“size_t”转换到“ULONG”，可能丢失数据
-  RemoteClient.vcxproj -> D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\x64\Debug\RemoteClient.exe
+﻿D:\Microsoft Visual Studio\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppClean.targets(77,5): warning : 文件“d:\study\remotcontrol\hellowty412\remotectrl\remoteclient\x64\debug\remoteclient.pch”正由另一进程使用，因此该进程无法访问此文件。
+D:\Microsoft Visual Studio\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(548,5): error MSB3061: 无法删除文件“x64\Debug\RemoteClient.pch”。文件“D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteClient\x64\Debug\RemoteClient.pch”正由另一进程使用，因此该进程无法访问此文件。

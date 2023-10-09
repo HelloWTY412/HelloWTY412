@@ -143,7 +143,7 @@ protected:
             finfo.IsDirectory = (fdata.attrib & _A_SUBDIR) != 0;
             memcpy(finfo.szFileName, fdata.name, strlen(fdata.name));
             lstPacket.push_back(CPacket(2, (BYTE*)&finfo, sizeof(finfo)));           
-            TRACE(" send dir [%s]\r\n", finfo.szFileName);
+            TRACE(" send dir [%s], size: %d\r\n", finfo.szFileName, sizeof(finfo));
         } while (!_findnext(hfind, &fdata));
         _findclose(hfind); // 关闭文件查找句柄
         FILEINFO finfo;

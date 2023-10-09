@@ -3,15 +3,19 @@
 #include "framework.h"
 #include <string>
 #include<vector>
+#include<map>
+#include<list>
+#include"Tool.h"
 using namespace std;
-
+#define WM_SEND_PACK (WM_USER+1)//发送包数据
+#define WM_SEND_PACK_ACK (WM_USER+2)//发哦下哦那个报数据应答
 #pragma pack(push)
 #pragma pack(1)
 
 
 class CPacket {
 public:
-	CPacket() :sHead(0), nLength(0), sCmd(0), sSum(0) {};
+	CPacket() :sHead(0), nLength(0), sCmd(0), sSum(0){};
 	CPacket(WORD nCmd, const BYTE* pData, size_t nSize) {//打包
 		sHead = 0xFEFF;
 		nLength = nSize + 4;
@@ -37,6 +41,7 @@ public:
 		sCmd = pack.sCmd;
 		strData = pack.strData;
 		sSum = pack.sSum;
+		
 	}
 	CPacket(const BYTE* pData, size_t& nSize) {//nSize 输入：pData的字节。输出：用掉多少字节
 		size_t i = 0;//i是当前读取到的长度
@@ -139,6 +144,36 @@ typedef struct file_info {
 	char szFileName[256];//文件名
 }FILEINFO, * PFILEINFO;
 
+typedef struct PacketData {
+	string strData;
+	UINT nMode;
+	WPARAM wParam;
+	PacketData(const char* pData, size_t nLen, UINT mode, WPARAM nParam = 0)
+	{
+		strData.resize(nLen);
+		memcpy((char*)strData.c_str(), pData, nLen);
+		nMode = mode;
+		wParam = nParam;
+	}
+	PacketData(const PacketData& data) {
+		strData = data.strData;
+		nMode = data.nMode;
+		wParam = data.wParam;
+	}
+	PacketData& operator=(const PacketData& data) {
+		if (this != &data) {
+			strData = data.strData;
+			nMode = data.nMode;
+			wParam = data.wParam;
+		}
+		return *this;
+	}
+}PACKET_DATA;
+
+enum {
+	CSM_AUTOCLOSE = 1,//CSM=Client Socket Mode自动关闭模式
+
+};
 string GetErrInfo(int wsaErrCode) ;
 class CClientSocket
 {
@@ -150,44 +185,7 @@ public:
 		return m_instance;
 	};
 
-	bool InitSocket() {
-		// CServerSocket::getInstance();
-		if (m_sock != INVALID_SOCKET)  CloseSocket();
-		m_sock = socket(PF_INET, SOCK_STREAM, 0);
-		if (m_sock == -1) return false;
-		//TODO:校验
-		sockaddr_in serv_adr;
-		memset(&serv_adr, 0, sizeof(serv_adr));
-		serv_adr.sin_family = AF_INET;
-		serv_adr.sin_addr.s_addr = htonl(m_nIP);//监听所有IP（不能假定只有一个IP）
-		serv_adr.sin_port = htons(m_nPort);
-		if (serv_adr.sin_addr.s_addr == INADDR_NONE) {
-			AfxMessageBox("指定的IP地址,不存在");
-			return false;
-		}
-		int ret = connect(m_sock,(sockaddr*)&serv_adr,sizeof(serv_adr));
-		if (ret == -1) {
-			AfxMessageBox("连接失败");
-			return FALSE;
-		}
-		return true;
-	};
-	void Dump(BYTE* pData, size_t nSize) {
-		string strOut;
-		for (size_t i = 0; i < nSize; i++)
-		{
-			char buf[8] = "";
-			if (i > 0 && (i % 16 == 0))
-			{
-				strOut += "\n";
-			};
-			snprintf(buf, sizeof(buf), "%02X ", pData[i] & 0XFF);
-			strOut += buf;
-		}
-		strOut += "\n";
-		OutputDebugStringA(strOut.c_str());
-	}
-
+	bool InitSocket();
 #define BUFFER_SIZE 1048576//1MB
 	
 	int DealCommand() {
@@ -200,7 +198,7 @@ public:
 			//TODO:处理命令
 			index += len;//index: buffer中实际存储的数据大小
 			len = index;
-			//Dump((BYTE*)buffer, len);
+			CTool::Dump((BYTE*)buffer, len);
 			m_packet = CPacket((BYTE*)buffer, len);//len：输入：buffer中实际存储的数据大小 输出：本次处理的包的大小
 			if (len > 0) {
 				memmove(buffer, buffer + len, index - len);
@@ -209,19 +207,6 @@ public:
 			}
 		}
 		return -1;
-	}
-
-	bool Send(const char* pData, int nsize) {
-		if (m_sock == -1) return false;
-		return send(m_sock, pData, nsize, 0) > 0;
-	}
-
-	bool Send(const CPacket& pack) {
-		TRACE("m_sock:%d sCmd:%d\r\n", m_sock,pack.sCmd);
-		if (m_sock == -1) return false;
-		string strOut;
-		pack.Data(strOut);
-		return send(m_sock, strOut.c_str(), strOut.size(), 0) > 0;
 	}
 
 	bool GetFilePath(string& strPath) {
@@ -247,36 +232,38 @@ public:
 		m_sock = INVALID_SOCKET;
 	}
 	void UpdateAdress(DWORD nIP,int nPort) {
-		m_nIP = nIP;
-		m_nPort = nPort;
+		if ((m_nIP!=nIP)||(m_nPort!=nPort)) {
+			m_nIP = nIP;
+			m_nPort = nPort;
+		}
 	}
+	bool SendPacket(HWND hWnd,const CPacket& pack,bool isAutoClosed=true, WPARAM wParam=0);
+	void SendPack(UINT nMsg, WPARAM wParam, LPARAM lParam);
 private:
+	HANDLE m_eventInvoke;
+	typedef void(CClientSocket::* MSGFUNC)(UINT nMsg, WPARAM wParam, LPARAM lParam);//回调函数
+	map<UINT, MSGFUNC> m_mapFunc;//消息
+	HANDLE m_hThread;//线程
+	UINT m_nThreadID;
+	bool m_bAutoClose;
+	list<CPacket> m_lstSend;
+	map<HANDLE, list<CPacket>> m_mapAck;
 	DWORD m_nIP;
 	int m_nPort;
 	vector<char> m_buffer;
 	SOCKET m_sock;
 	CPacket m_packet;
-	CClientSocket& operator=(const CClientSocket& ss) {};
-	CClientSocket(const CClientSocket& ss){
-		m_sock = ss.m_sock;
-		m_nIP = ss.m_nIP;
-		m_nPort = ss.m_nPort;
-	}
-	CClientSocket() :
-		m_nIP(INADDR_ANY),
-		m_nPort(0) {
-		if (InitSockEvn() == FALSE) {
-			MessageBox(NULL, _T("无法初始化套接字环境,检查网络设置"), _T("初始化错误"), MB_OK | MB_ICONERROR);
-			exit(0);
-		};
-		m_buffer.resize(BUFFER_SIZE);
-		memset(m_buffer.data(),0,BUFFER_SIZE);
-	};
+	CClientSocket& operator=(const CClientSocket& ss) ;
+	CClientSocket(const CClientSocket& ss);
+	CClientSocket();
 	~CClientSocket() {
 		closesocket(m_sock);
+		m_sock = INVALID_SOCKET;
 		WSACleanup();
 	}
-
+	static unsigned __stdcall threadEntry(void* arg);
+	//void threadFunc();
+	void threadFunc2();
 	BOOL InitSockEvn() {
 		WSADATA data;
 		if (WSAStartup(MAKEWORD(1, 1), &data) != 0) {
@@ -293,7 +280,18 @@ private:
 
 		}
 	}
+	bool Send(const char* pData, int nsize) {
+		if (m_sock == -1) return false;
+		return send(m_sock, pData, nsize, 0) > 0;
+	}
 
+	bool Send(const CPacket& pack) {
+		TRACE("m_sock:%d sCmd:%d\r\n", m_sock, pack.sCmd);
+		if (m_sock == -1) return false;
+		string strOut;
+		pack.Data(strOut);
+		return send(m_sock, strOut.c_str(), strOut.size(), 0) > 0;
+	}
 	class CHelper {
 	public:
 		CHelper() {
