@@ -1,26 +1,4 @@
-﻿  CServer.cpp
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\CThread.h(186,13): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\CServer.cpp(88,70): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\CQueue.h(203,1): warning C4407: 在指向成员表示形式的不同指针之间进行强制转换，编译器可能生成不正确的代码
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\CQueue.h(199,2): message : 在编译 类 模板 成员函数“SendQueue<std::vector<char,std::allocator<char>>>::SendQueue(ThreadFuncBase *,int (__cdecl ThreadFuncBase::* )(T &))”时
-          with
-          [
-              T=std::vector<char,std::allocator<char>>
-          ]
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\CServer.cpp(46,14): message : 请参阅 "Client::Client" 中对 "SendQueue<std::vector<char,std::allocator<char>>>::SendQueue" 的第一个引用
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\CQueue.h(273,46): message : 查看对正在编译的 类 模板 实例化“SendQueue<std::vector<char,std::allocator<char>>>”的引用
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\CQueue.h(79,9): warning C4834: 放弃具有 "nodiscard" 属性的函数的返回值
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\CQueue.h(65,15): message : 在编译 类 模板 成员函数“bool CQueue<T>::PopFront(T &)”时
-          with
-          [
-              T=std::vector<char,std::allocator<char>>
-          ]
-D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\CQueue.h(195,25): message : 查看对正在编译的 类 模板 实例化“CQueue<T>”的引用
-          with
-          [
-              T=std::vector<char,std::allocator<char>>
-          ]
-  RemoteCtrl.cpp
+﻿  RemoteCtrl.cpp
 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\Packet.h(14,19): warning C4267: “=”: 从“size_t”转换到“DWORD”，可能丢失数据
 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\ServerSocket.h(94,56): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\Command.h(105,26): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
@@ -30,6 +8,13 @@ D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\Command.h(107,35): warni
               _Elem=char
           ]
 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\CThread.h(186,13): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\RemoteCtrl.cpp(176,57): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\RemoteCtrl.cpp(219,51): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\RemoteCtrl.cpp(223,60): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\RemoteCtrl.cpp(230,62): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\RemoteCtrl.cpp(242,53): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\RemoteCtrl.cpp(246,62): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\RemoteCtrl.cpp(256,62): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\CQueue.h(79,9): warning C4834: 放弃具有 "nodiscard" 属性的函数的返回值
 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\CQueue.h(65,15): message : 在编译 类 模板 成员函数“bool CQueue<T>::PopFront(T &)”时
           with
@@ -42,5 +27,4 @@ D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\CQueue.h(195,25): messag
               T=std::vector<char,std::allocator<char>>
           ]
 D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\RemoteCtrl\CQueue.h(273,46): message : 查看对正在编译的 类 模板 实例化“SendQueue<std::vector<char,std::allocator<char>>>”的引用
-  正在生成代码...
   RemoteCtrl.vcxproj -> D:\STUDY\RemotControl\HelloWTY412\RemoteCtrl\x64\Debug\RemoteCtrl.exe
