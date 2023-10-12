@@ -234,7 +234,7 @@ protected:
             case 3://ки©╙
                 nFlages |= 0x80;
                 break;
-            defult:
+            default:
                 break;
             }
             switch (nFlages) {
