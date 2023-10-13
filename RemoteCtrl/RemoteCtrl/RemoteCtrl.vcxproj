@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -144,9 +144,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CNetwork.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="CQueue.h" />
     <ClInclude Include="CServer.h" />
+    <ClInclude Include="CSocket.h" />
     <ClInclude Include="CThread.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="LockInfoDialog.h" />
@@ -159,6 +161,7 @@
     <ClInclude Include="Tool.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CNetwork.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="CServer.cpp" />
     <ClCompile Include="LockInfoDialog.cpp" />
